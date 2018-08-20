@@ -3,23 +3,24 @@ import * as types from './mutation-types'
 import axios from 'axios'
 
 export const state = {
-    lang: 'en',
+    lang: 'en'
 }
 
 export const mutations = {
-    [types.SET_LANG](state, payload){
+    [types.SET_LANG] (state, payload){
         app.$i18n.locale = payload
     }
 }
 
-export const actions ={
+export const actions = {
     setLang({commit}, payload) {
         commit(types.SET_LANG, payload)
     },
-
+    //to not load all lanuages at once
     async setLangNew({commit}, payload){
         if (payload in app.$i18n.messages) {
             commit(types.SET_LANG, payload)
+            console.log('setlangnew')
         } else {
             try {
                 //const res = await import(`./src/lang/locale/${payload}.json`)

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import i18n from './lang/index'
+import i18n from './lang/lang'
 import VueI18n from 'vue-i18n'
 import store from './store'
 
@@ -19,9 +19,8 @@ const i18n = new VueI18({
   locale,
   messages
 })*/
-
-export const app = new Vue({
-  
+//export vue instance as a variable
+export const app = new Vue({  
   el: '#app',
   store,
   i18n,

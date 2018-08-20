@@ -1,18 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <!--<img alt="Vue logo" src="./assets/logo.png">-->
     <HelloWorld />
-    <img src="./dist/images/upload/plugin1.png">
+    <!--<img src="./dist/images/upload/plugin1.png">-->
     <HelloWorld1/>
      <h2>{{ $t("hello") }}</h2>
+     <p>{{ $tc('hello') }}</p>
+     <p>{{ $tc('car') }}</p>
+     <h3>with vuex</h3>
+     <button @click="setLang('ko')">ko</button>
+     <h3>without vuex</h3>
      <button @click="switchLang('ko')">ko</button>
+      <h3>dynamic locale</h3>
+     <button @click="setLangNew('ko')">ko</button>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import HelloWorld1 from './components/HelloWorld.1.vue'
-import i18n from './i18n/index'
+import i18n from './lang/lang'
 
 export default {
   name: 'app',
@@ -21,14 +28,15 @@ export default {
     HelloWorld1: HelloWorld1
   },
   methods: {
+     //without Vuex
     switchLang: function(lang){
       if (lang in vue.$i18n.messages){
-        console.log('no ajax')
-        this.$i18n.locale=lang
-      }else{
+        //console.log('no ajax')
+        this.$i18n.locale = lang
+      } else {
         this.loadLocalMessage(lang, (err, message) => {
           if (err){
-            console.error(err)
+            //console.error(err)
             return
           }
           i18n.setLocaleMessage(lang, message)
@@ -36,16 +44,25 @@ export default {
         })
       }
     },
+    setLangNew: function(lang){
+      this.$store.dispatch('setLangNew', lang)
+    },
+    //with Vuex
+    setLang: function(lang){
+      this.$store.dispatch('setLang', lang)
+     //console.log('setlang')
+    },
+   
     loadLocalMessage: function(locale, cb){
-      console.log('locale',locale);
-      return fetch(`./src/lang/${locale}.json`, {
-        method: 'get',
+      //console.log('locale',locale);
+      return fetch(`./lang/${locale}.json`, { //o
+        method: 'get', //get failed
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'applicaion/json'
         }
       }).then((res) => {
-          console.log('success');
+          //console.log('success'); //0
         return res.json()
       }).then((json) => {
         if (Object.keys(json).length === 0) {
@@ -59,7 +76,7 @@ export default {
         cb(error)
       })
     }
-  }
+  },
 }
 </script>
 
