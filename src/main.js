@@ -1,8 +1,33 @@
 import Vue from 'vue'
 import App from './App.vue'
+import i18n from './lang/index'
+import VueI18n from 'vue-i18n'
+import store from './store'
 
+Vue.use(VueI18n)
 Vue.config.productionTip = false
+/*
+//default local설정
+const locale='en'
 
-new Vue({
+const messages={
+  en: en,
+  kr: kr
+}*/
+/*
+const i18n = new VueI18({
+  locale,
+  messages
+})*/
+
+export const app = new Vue({
+  
+  el: '#app',
+  store,
+  i18n,
   render: h => h(App)
-}).$mount('#app')
+})
+
+window['vue'] = app
+window.store = store
+//export default i18n
